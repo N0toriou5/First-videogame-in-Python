@@ -46,7 +46,7 @@ def cleanup_list(list):
 
 # setup game environment
 class Background:
-    def_init_(self):
+    def__init__(self):
         self.star_list=[]
     for i in range(STAR_COUNT):
         self.star_list.append(
@@ -69,7 +69,7 @@ class Background:
 # next block will define class player
 
 class Player:
-    def_init_self(self, x, y):
+    def__init__self(self, x, y):
     self.x = x
     self.y = y
     self.w = PLAYER_WIDTH
@@ -106,5 +106,86 @@ def update(self):
         pyxel.blt(self.x,self.y,0,0,0,self.w,self.h,0)
 
 # Now let's define class Bullet
+class Bullet:
+    def__init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.w = BULLET_WIDTH
+        self.h = BULLET_HEIGHT
+        self.alive = True
+        
+        bullet_list.append(self)
+        
+    def update(self):
+        self.y -= BULLET_SPEED
+        
+        if self.y + self.h - 1 < 0:
+            self.alive = FALSE
+            
+    def draw(self):
+        pyxel.rect(self.x, self.y, self.w, self.h, BULLET_COLOR)
+
+# Define also class Enemy
+class Enemy:
+    def__init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.w = ENEMY_WIDTH
+        self.h = ENEMY_HEIGHT
+        self.dir = 1
+        self. alive = True
+        self.offset = int(random()*60)
+        
+        enemy_list.append(self)
+        
+    def update(self):
+        if (pyxel.frame_count + self.offset) % 60 < 30:
+            self.x += ENEMY_SPEED
+            self.dir = 1
+        else:
+            self.x -= ENEMY_SPEED
+            self.dir = -1
+            
+        self.y += ENEMY_SPEED
+        
+        if self.y > pyxel.height - 1:
+            self.alive = False
+            
+    def draw(self):
+        pyxel.blt(self.x, self.y, 0, 8, 0, self.w * self.dir, self.h, 0)
+        
+# last class to be defined is for explosion
+class Blast:
+    def__init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.radius = BLAST_START_RADIUS
+        self.alive = True
+        
+        blast_list.append(self)
+    
+    def update(self):
+        self.radius += 1
+        
+        if self.radius > BLAST_END_RADIUS:
+            self.alive = False
+        
+    def draw(self):
+        pyxel.circ(self.x, self.y, self.radius, BLAST_COLOR_IN)
+        pyxel.circb(self.x, self.y, self.radius, BLAST_COLOR_OUT)
+
+# Now define the class App
+class App:
+    def__init__(self):
+        pyxel.init(120, 160, caption = "Space Invaders")
+        
+        ## now use images from pyxel to create sprites
+            
+    
+        
+             
+        
+        
+     
         
     
