@@ -37,7 +37,7 @@ def draw_list(list):
         elem.draw()
 def cleanup_list(list):
     i=0
-    while i < len(list)
+    while i < len(list):
     elem = list[i]
     if not elem.alive:
         list.pop(i)
