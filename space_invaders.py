@@ -180,6 +180,95 @@ class App:
         pyxel.init(120, 160, caption = "Space Invaders")
         
         ## now use images from pyxel to create sprites
+        pyxel.image(0).set(
+            0,
+            0,
+            [
+                "00c00c00",
+                "0c7007c0",
+                "0c7007c0",
+                "c703b07c",
+                "77033077",
+                "785cc587",
+                "85c77c58",
+                "0c0880c0",
+            ],
+        )
+        
+        pyxel.image(0).set(
+            8,
+            0,
+            [
+                "00088000",
+                "00ee1200",
+                "08e2b180",
+                "02882820",
+                "00222200",
+                "00012280",
+                "08208008",
+                "80008000",
+            ],
+        )
+        pyxel.sound(0).set("a3a2c1a1", "p", "7", "s", "5")
+        pyxel.sound(1).set("a3a2c2c2", "n", "7742", "s", "10")
+        
+        #background
+        self.scene = SCENE_TITLE
+        self.score = 0
+        self.background = Background()
+        self.player = Player(pyxel.width / 2, pyxel.heigth - 20)
+        pyxel.run(self.update, self.draw)
+        
+        
+    def update(self):
+        if pyxel.btnp(pyxel.KEY_Q):
+            pyxel.quit()
+        self.background.update()
+        if self.scene == SCENE_TITLE:
+            self.update_title_scene()
+        elif self.scene == SCENE_PLAY:
+            self.update_play_scene()
+        elif self.scene == SCENE_GAMEOVER:
+            self.update_gameover_scene()
+            
+     def update_title_scene(self):
+        if pyxel.frame_count % 6 == 0:
+            Enemy(random() * (pyxel.width - PLAYER_WIDTH), 0)
+            for a in enemy_list:
+                for b in bullet_list:
+                   if (a.x + a.w > b.w
+                       and b.x + b.w > a.x
+                       and a.y + a.h > b.y
+                       and b.y + b.h > a.y):
+                       a.alive = False
+                       b.alive = False
+                       blast_list.append(Blast(a.x + ENEMY_WIDTH / 2, a.y + ENEMY_HEIGHT / 2))
+                       pyxel.play(1,1)
+                       self.score += 10
+                for enemy in enemy_list:
+                    if (self.player.x + self.player.w > enemy.x
+                        and enemy.x + enemy.w > self.player.x
+                        and self.player.y + self.player.h > enemy.y
+                        and enemy.y + enemy.h > self.player.y):
+                        enemy.alive = False
+                        blast_list.append(
+                            Blast(
+                                self.player.x + PLAYER_WIDTH / 2,
+                                self.player.y + PLAYER_HEIGHT /2,))
+                        pyxel.play(1, 1)
+                        self.scene = SCENE_GAMEOVER
+                    self.player.update()
+                    update_list(bullet_list)
+                    update_list(enemy_list)
+                    update_list(blast_list)
+                    cleanup_list(enemy_list)
+                    cleanup_list(bullet_list)
+                    cleanup_list(blast_list)
+                    
+            def update_gameover_scene(self):
+                
+            
+                
             
     
         
