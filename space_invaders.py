@@ -316,7 +316,7 @@ class App:
 
     def draw_title_scene(self):
         pyxel.text(35, 66, "START GAME!", pyxel.frame_count % 16)
-        pyxel.text(31, 126, " - PRESS START", 13)
+        pyxel.text(31, 126, " - PRESS START -", 13)
 
     def draw_play_scene(self):
         self.player.draw()
