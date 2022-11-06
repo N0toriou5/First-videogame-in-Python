@@ -303,7 +303,7 @@ class App:
     def draw(self):
         pyxel.cls(0)
 
-        self.backround.draw()
+        self.background.draw()
 
         if self.scene == SCENE_TITLE:
             self.draw_title_scene()
