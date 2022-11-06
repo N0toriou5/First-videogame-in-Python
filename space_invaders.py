@@ -1,6 +1,5 @@
 from random import random
 import pyxel
-
 # note on Pyxel: you can create your own sprites by using pyxel editor!
 
 SCENE_TITLE = 0
@@ -75,13 +74,12 @@ class Background:
 # next block will define class player
 
 class Player:
-    def __init__self(self, x, y):
+    def __init__(self, x, y):
         self.x = x
         self.y = y
         self.w = PLAYER_WIDTH
         self.h = PLAYER_HEIGHT
         self.alive = True
-
 
     def update(self):
         if pyxel.btn(pyxel.KEY_LEFT):
@@ -109,8 +107,8 @@ class Player:
 
             pyxel.play(0, 0)
 
-        def draw(self):
-            pyxel.blt(self.x, self.y, 0, 0, 0, self.w, self.h, 0)
+    def draw(self):
+        pyxel.blt(self.x, self.y, 0, 0, 0, self.w, self.h, 0)
 
 # Now let's define class Bullet
 class Bullet:
@@ -132,10 +130,6 @@ class Bullet:
 
     def draw(self):
         pyxel.rect(self.x, self.y, self.w, self.h, BULLET_COLOR)
-
-
-
-
 
 # Define also class Enemy
 class Enemy:
@@ -167,10 +161,6 @@ class Enemy:
     def draw(self):
         pyxel.blt(self.x, self.y, 0, 8, 0, self.w * self.dir, self.h, 0)
 
-
-
-
-
 # last class to be defined is for explosion
 class Blast:
     def __init__(self, x, y):
@@ -195,7 +185,7 @@ class Blast:
 # Now define the class App
 class App:
     def __init__(self):
-        pyxel.init(120, 160, caption="Space Invaders")
+        pyxel.init(120, 160)
         pyxel.image(0).set(
             0,
             0,
@@ -225,8 +215,8 @@ class App:
             ],
         )
 
-        pyxel.sound(0).set("a3a2c1a1", "p", "7", "s", "5")
-        pyxel.sound(1).set("a3a2c2c2", "n", "7742", "s", "10")
+        pyxel.sound(0).set("a3a2c1a1", "p", "7", "s", 5)
+        pyxel.sound(1).set("a3a2c2c2", "n", "7742", "s", 10)
 
 
         ## now use images from pyxel to create sprites
@@ -236,7 +226,7 @@ class App:
         self.scene = SCENE_TITLE
         self.score = 0
         self.background = Background()
-        self.player = Player(pyxel.width / 2, pyxel.heigth - 20)
+        self.player = Player(pyxel.width / 2, pyxel.height - 20)
         pyxel.run(self.update, self.draw)
 
     def update(self):
@@ -330,19 +320,6 @@ class App:
         draw_list(blast_list)
 
         pyxel.text(43, 66, "GAME OVER", 8)
-        pyxel.yext(31, 126, "- PRESS START -", 13)
+        pyxel.text(31, 126, "- PRESS START -", 13)
 
 App()
-
-                
-            
-                
-            
-    
-        
-             
-        
-        
-     
-        
-    
