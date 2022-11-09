@@ -126,7 +126,7 @@ class Bullet:
         self.y -= BULLET_SPEED
 
         if self.y + self.h - 1 < 0:
-            self.alive = FALSE
+            self.alive = False
 
     def draw(self):
         pyxel.rect(self.x, self.y, self.w, self.h, BULLET_COLOR)
