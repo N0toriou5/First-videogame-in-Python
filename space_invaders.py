@@ -73,6 +73,7 @@ class Background:
 
 # next block will define class player
 
+
 class Player:
     def __init__(self, x, y):
         self.x = x
@@ -111,6 +112,8 @@ class Player:
         pyxel.blt(self.x, self.y, 0, 0, 0, self.w, self.h, 0)
 
 # Now let's define class Bullet
+
+
 class Bullet:
     def __init__(self, x, y):
         self.x = x
@@ -120,7 +123,6 @@ class Bullet:
         self.alive = True
 
         bullet_list.append(self)
-
 
     def update(self):
         self.y -= BULLET_SPEED
@@ -132,6 +134,8 @@ class Bullet:
         pyxel.rect(self.x, self.y, self.w, self.h, BULLET_COLOR)
 
 # Define also class Enemy
+
+
 class Enemy:
     def __init__(self, x, y):
         self.x = x
@@ -143,7 +147,6 @@ class Enemy:
         self.offset = int(random() * 60)
 
         enemy_list.append(self)
-
 
     def update(self):
         if (pyxel.frame_count + self.offset) % 60 < 30:
@@ -162,6 +165,8 @@ class Enemy:
         pyxel.blt(self.x, self.y, 0, 8, 0, self.w * self.dir, self.h, 0)
 
 # last class to be defined is for explosion
+
+
 class Blast:
     def __init__(self, x, y):
         self.x = x
@@ -170,7 +175,6 @@ class Blast:
         self.alive = True
 
         blast_list.append(self)
-
 
     def update(self):
         self.radius += 1
@@ -183,6 +187,8 @@ class Blast:
         pyxel.circb(self.x, self.y, self.radius, BLAST_COLOR_OUT)
 
 # Now define the class App
+
+
 class App:
     def __init__(self):
         pyxel.init(120, 160)
@@ -218,10 +224,7 @@ class App:
         pyxel.sound(0).set("a3a2c1a1", "p", "7", "s", 5)
         pyxel.sound(1).set("a3a2c2c2", "n", "7742", "s", 10)
 
-
-        ## now use images from pyxel to create sprites
-
-
+        # now use images from pyxel to create sprites
         # background
         self.scene = SCENE_TITLE
         self.score = 0
@@ -321,5 +324,6 @@ class App:
 
         pyxel.text(43, 66, "GAME OVER", 8)
         pyxel.text(31, 126, "- PRESS START -", 13)
+
 
 App()
