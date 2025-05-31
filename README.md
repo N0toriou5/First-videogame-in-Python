@@ -18,13 +18,6 @@
 | Enter         | Avvia / Riavvia partita  |
 | Q             | Esci dal gioco           |
 
-## Struttura del progetto
-
-```text
-.
-├── app.py         # Codice principale del gioco
-└── README.MD
-```
 
 👾 Autore: Daniele Mercatelli
 🎨 Realizzato con Pyxel
