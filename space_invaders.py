@@ -42,10 +42,10 @@ def cleanup_list(list):
     i = 0
     while i < len(list):
         elem = list[i]
-    if not elem.alive:
-        list.pop(i)
-    else:
-        i += 1
+        if not elem.alive:
+            list.pop(i)
+        else:
+            i += 1
 
 
 # setup game environment
@@ -165,8 +165,6 @@ class Enemy:
         pyxel.blt(self.x, self.y, 0, 8, 0, self.w * self.dir, self.h, 0)
 
 # last class to be defined is for explosion
-
-
 class Blast:
     def __init__(self, x, y):
         self.x = x
@@ -187,8 +185,6 @@ class Blast:
         pyxel.circb(self.x, self.y, self.radius, BLAST_COLOR_OUT)
 
 # Now define the class App
-
-
 class App:
     def __init__(self):
         pyxel.init(120, 160)
@@ -244,38 +240,49 @@ class App:
             self.update_gameover_scene()
 
     def update_title_scene(self):
+        if pyxel.btnp(pyxel.KEY_RETURN):
+            self.scene = SCENE_PLAY
+            self.player.x = pyxel.width / 2
+            self.player.y = pyxel.height - 20
+            self.score = 0
+            enemy_list.clear()
+            bullet_list.clear()
+            blast_list.clear()
+
         if pyxel.frame_count % 6 == 0:
             Enemy(random() * (pyxel.width - PLAYER_WIDTH), 0)
-            for a in enemy_list:
-                for b in bullet_list:
-                    if (a.x + a.w > b.w
-                            and b.x + b.w > a.x
-                            and a.y + a.h > b.y
-                            and b.y + b.h > a.y):
-                        a.alive = False
-                        b.alive = False
-                        blast_list.append(Blast(a.x + ENEMY_WIDTH / 2, a.y + ENEMY_HEIGHT / 2))
-                        pyxel.play(1, 1)
-                        self.score += 10
-                for enemy in enemy_list:
-                    if (self.player.x + self.player.w > enemy.x
-                            and enemy.x + enemy.w > self.player.x
-                            and self.player.y + self.player.h > enemy.y
-                            and enemy.y + enemy.h > self.player.y):
-                        enemy.alive = False
-                        blast_list.append(
-                            Blast(
-                                self.player.x + PLAYER_WIDTH / 2,
-                                self.player.y + PLAYER_HEIGHT / 2, ))
-                        pyxel.play(1, 1)
-                        self.scene = SCENE_GAMEOVER
-                    self.player.update()
-                    update_list(bullet_list)
-                    update_list(enemy_list)
-                    update_list(blast_list)
-                    cleanup_list(enemy_list)
-                    cleanup_list(bullet_list)
-                    cleanup_list(blast_list)
+    
+    def update_play_scene(self):
+        self.player.update()
+        if pyxel.frame_count % 30 == 0:
+            Enemy(random() * (pyxel.width - PLAYER_WIDTH), 0)
+
+        for a in enemy_list:
+            for b in bullet_list:
+                if (a.x + a.w > b.x and b.x + b.w > a.x and
+                        a.y + a.h > b.y and b.y + b.h > a.y):
+                    a.alive = False
+                    b.alive = False
+                    Blast(a.x + ENEMY_WIDTH / 2, a.y + ENEMY_HEIGHT / 2)
+                    pyxel.play(1, 1)
+                    self.score += 10
+
+        for enemy in enemy_list:
+            if (self.player.x + self.player.w > enemy.x and
+                    enemy.x + enemy.w > self.player.x and
+                    self.player.y + self.player.h > enemy.y and
+                    enemy.y + enemy.h > self.player.y):
+                enemy.alive = False
+                Blast(self.player.x + PLAYER_WIDTH / 2, self.player.y + PLAYER_HEIGHT / 2)
+                pyxel.play(1, 1)
+                self.scene = SCENE_GAMEOVER
+
+        update_list(bullet_list)
+        update_list(enemy_list)
+        update_list(blast_list)
+        cleanup_list(enemy_list)
+        cleanup_list(bullet_list)
+        cleanup_list(blast_list)
 
     def update_gameover_scene(self):
         update_list(bullet_list)
@@ -284,7 +291,7 @@ class App:
         cleanup_list(enemy_list)
         cleanup_list(bullet_list)
         cleanup_list(blast_list)
-        if pyxel.bntp(pyxel.KEY_ENTER):
+        if pyxel.btnp(pyxel.KEY_RETURN):
             self.scene = SCENE_PLAY
             self.player.x = pyxel.width / 2
             self.player.y = pyxel.height - 20
@@ -295,13 +302,12 @@ class App:
 
     def draw(self):
         pyxel.cls(0)
-
         self.background.draw()
 
         if self.scene == SCENE_TITLE:
             self.draw_title_scene()
         elif self.scene == SCENE_PLAY:
-            self.draw_title_scene()
+            self.draw_play_scene()
         elif self.scene == SCENE_GAMEOVER:
             self.draw_gameover_scene()
 
